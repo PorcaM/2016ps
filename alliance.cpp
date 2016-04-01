@@ -12,25 +12,23 @@ Writed by PorcaM
 using namespace std;
 
 int T, N, M;
-bool isGroup[100000];
-typedef pair<int, int> IntPair;
-typedef list<IntPair> PairList;
+bool *isGroup;
 typedef list<int> IntList;
-PairList al;
-IntList partnerOf[100000];
+IntList *partnerOf;
+int p[100000][1000];
 
-int mark(int num) {
+inline int mark(int num) {
 	if (isGroup[num]) return 0;
 	else isGroup[num] = true;
 	int ret = 1;
-	if (partnerOf[num].size() == 0);
+	if (partnerOf[num].size() == 0) return ret;
 	else {
 		for (IntList::iterator pi = partnerOf[num].begin();
 		pi != partnerOf[num].end(); pi++) {
 			ret += mark(*pi);
 		}
+		return ret;
 	}
-	return ret;
 }
 
 int main() {
@@ -38,29 +36,26 @@ int main() {
 	cin >> T;
 	while (T--) {
 		cin >> N >> M;
+		partnerOf = new IntList[N];
+		isGroup = new bool[N];
 		for (int i = 0; i < N; i++) {
-			partnerOf[i].clear();
 			isGroup[i] = false;
 		}
 		for (int i = 0; i < M; i++) {
 			int a, b;
 			cin >> a >> b;
 			a--; b--;
-			al.push_back(IntPair(a, b));
 			partnerOf[a].push_back(b);
 			partnerOf[b].push_back(a);
 		}
-
-		IntList marks;
+		int max = 0;
 		for (int i = 0; i < N; i++) {
 			if (isGroup[i]) continue;
-			else marks.push_back(mark(i));
+			else {
+				int temp = mark(i);
+				if (max < temp) max = temp;
+			}
 		}
-		int max = 0;
-		for (IntList::iterator mi = marks.begin();
-		mi != marks.end(); mi++) {
-			if (max < *mi) max = *mi;
-		}		
 		cout << max << "\n";
 	}
 }
