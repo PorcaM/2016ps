@@ -1,12 +1,11 @@
 /*
 Problem:	alliance - w5_alliance
-Submitted:	18:19
+Submitted:	18:49
 Language:	C++
-Time used:	1.21 second
+Time used:	1.08 second
 Memory used:	232914944 bytes
 Writed by PorcaM
 */
-
 #include <iostream>
 #include <list>
 using namespace std;
@@ -15,20 +14,17 @@ int T, N, M;
 bool *isGroup;
 typedef list<int> IntList;
 IntList *partnerOf;
-int p[100000][1000];
+int i, a, b, gmax;
 
-inline int mark(int num) {
+inline static int mark(int num) {
 	if (isGroup[num]) return 0;
 	else isGroup[num] = true;
 	int ret = 1;
-	if (partnerOf[num].size() == 0) return ret;
-	else {
-		for (IntList::iterator pi = partnerOf[num].begin();
-		pi != partnerOf[num].end(); pi++) {
-			ret += mark(*pi);
-		}
-		return ret;
+	for (IntList::const_iterator pi = partnerOf[num].begin();
+	pi != partnerOf[num].end(); pi++) {
+		ret += mark(*pi);
 	}
+	return ret;
 }
 
 int main() {
@@ -38,25 +34,24 @@ int main() {
 		cin >> N >> M;
 		partnerOf = new IntList[N];
 		isGroup = new bool[N];
-		for (int i = 0; i < N; i++) {
+		for (i = 0; i < N; i++) {
 			isGroup[i] = false;
 		}
-		for (int i = 0; i < M; i++) {
-			int a, b;
+		for (i = 0; i < M; i++) {
 			cin >> a >> b;
 			a--; b--;
 			partnerOf[a].push_back(b);
 			partnerOf[b].push_back(a);
 		}
-		int max = 0;
-		for (int i = 0; i < N;) {
+		gmax = 0;
+		for (i = 0; i < N;) {
 			if (isGroup[i]) continue;
 			else {
 				int temp = mark(i);
-				if (max < temp) max = temp;
+				if (gmax < temp) gmax = temp;
 			}
 			while (isGroup[++i]);
 		}
-		cout << max << "\n";
+		cout << gmax << "\n";
 	}
 }
