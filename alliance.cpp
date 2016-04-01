@@ -1,69 +1,40 @@
 #include <iostream>
 #include <string.h>
 #include <algorithm>
-#include <vector>
+#include <functional>
+#include <list>
 using namespace std;
 
-int T, M, N;
-int info[100001];
-
-inline bool isAlone(int a) {
-	return info[a] == 0;
-}
-
-inline bool isAlliance(int a, int b) {
-	if (info[a] == 0) return false;
-	else return info[a] == info[b];
-}
-
-void newAlliance(int a, int b, int gid) {
-	info[a] = gid;
-	info[b] = gid;
-}
-
-void mergeAlliance(int a, int b) {
-	int gid		= info[a];
-	int target	= info[b];
-	for (int i = 0; i < N; i++) {
-		if (info[i] == target)
-			info[i] = gid;
-	}
-}
-
-void newMember(int newb, int oldb) {
-	int gid = info[oldb];
-	info[newb] = gid;
-}
+int T, N, M;
+typedef list<int> IntList;
+IntList *nakama[100000];
 
 int main() {
 	ios::sync_with_stdio(false);
 	cin >> T;
 	while (T--) {
-		memset(info, 0, sizeof(info));
 		cin >> N >> M;
-		int gid = 0;
+		for (int i = 0; i < N; i++) {
+			nakama[i] = new IntList;
+			nakama[i]->push_back(i);
+		}
 		for (int i = 0; i < M; i++) {
 			int x, y;
 			cin >> x >> y;
-			if (isAlone(x) && isAlone(y)) {
-				newAlliance(x, y, ++gid);
-			}
-			else if (isAlone(x) && !isAlone(y)) {
-				newMember(x, y);
-			}
-			else if (isAlone(y) && !isAlone(x)) {
-				newMember(y, x);
-			}
-			else {
-				mergeAlliance(x, y);
+			x--; y--;
+			IntList *temp = new IntList;
+			temp->merge(*nakama[x]);
+			temp->merge(*nakama[y]);
+			for (IntList::const_iterator li = temp->begin();
+			li != temp->end(); li++) {
+				nakama[*li] = temp;
 			}
 		}
-		int *m = new int[gid + 1];
-		memset(m, 0, 4 * (gid + 1));
+		int max = 0;
 		for (int i = 0; i < N; i++) {
-			m[info[i]]++;
+			if (max < nakama[i]->size())
+				max = nakama[i]->size();
 		}
-		sort(m, m + gid + 1);
-		cout << m[gid] << "\n";
+		cout << max << "\n";
 	}
 }
