@@ -2,34 +2,30 @@
 #include <list>
 using namespace std;
 
-class Group {
-public:
-	Group *parent;
-	bool isTop;
-	int size;
-	Group(int a, int b) {
-		size = a + b;
-		parent = NULL;
-		isTop = true;
-	}
-	void giveTop(Group *p) {
-		isTop = false;
-		parent = p;
-	}
-	Group *getTop() {
-		if (isTop) return this;
-		else return parent->getTop();
-	}
-};
 int T, N, M;
+typedef pair<int, int> IntPair;
+typedef list<IntPair> PairList;
 typedef list<int> IntList;
-typedef list<Group*> GroupList;
-IntList *nakama[100000];
-Group *g[100000];
-GroupList tl;
+PairList al;
 
-bool noTop(Group *g) {
-	return !(g->isTop);
+int getSize() {
+	int ret = 2;
+	IntList member;
+	member.push_back(al.begin()->first);
+	member.push_back(al.begin()->second);
+	for (IntList::iterator mi = member.begin();
+	mi != member.end(); mi++) {
+		int me = *mi;
+		for (PairList::iterator li = al.begin();
+		li != al.end();) {
+			if (li->first == me || li->second == me) {
+				li = al.erase(li);
+				ret++;
+			}
+			else li++;
+		}
+	}
+	return ret;
 }
 
 int main() {
@@ -37,24 +33,18 @@ int main() {
 	cin >> T;
 	while (T--) {
 		cin >> N >> M;
-		for (int i = 0; i < N; i++) {
-			g[i] = new Group(1, 0);
-		}
+
 		for (int i = 0; i < M; i++) {
-			int x, y, a, b;
+			int a, b;
 			cin >> a >> b;
-			a--; b--;
-			Group *temp = new Group(g[a]->getTop()->size, g[b]->getTop()->size);
-			g[a]->getTop()->giveTop(temp);
-			g[b]->getTop()->giveTop(temp);
-			tl.push_back(temp);
+			al.push_back(IntPair(a, b));
 		}
-		tl.remove_if(noTop);
+
 		int max = 0;
-		for (GroupList::iterator li = tl.begin();
-		li != tl.end(); li++) {
-			if (max < (*li)->size)
-				max = (*li)->size;
+		while (al.size() != 0) {
+			int size = getSize();
+			if (max < size)
+				max = size;
 		}
 		cout << max << "\n";
 	}
