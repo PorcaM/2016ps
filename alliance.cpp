@@ -32,11 +32,10 @@ int main() {
 	cin >> T;
 	while (T--) {
 		cin >> N >> M;
-		partnerOf = new IntList[N];
-		isGroup = new bool[N];
-		for (i = 0; i < N; i++) {
+		partnerOf	= new IntList[N];
+		isGroup		= new bool[N];
+		for (i = 0; i < N; i++)
 			isGroup[i] = false;
-		}
 		for (i = 0; i < M; i++) {
 			cin >> a >> b;
 			a--; b--;
@@ -44,13 +43,12 @@ int main() {
 			partnerOf[b].push_back(a);
 		}
 		gmax = 0;
-		for (i = 0; i < N;) {
+		for (i = 0; i < N; i++) {
 			if (isGroup[i]) continue;
 			else {
 				int temp = mark(i);
 				if (gmax < temp) gmax = temp;
 			}
-			while (isGroup[++i]);
 		}
 		cout << gmax << "\n";
 	}
