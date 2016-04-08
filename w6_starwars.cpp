@@ -1,3 +1,11 @@
+/*
+Problem:	starwars - w6_starwars
+Submitted:	21:43
+Language:	C++
+Time used:	10.04 second
+Memory used:	262144 bytes
+*/
+
 #include <iostream>
 #include <algorithm>
 using namespace std;
@@ -28,7 +36,7 @@ inline void us_union(int a, int b) {
 int main() {
 	ios::sync_with_stdio(false);
 	cin >> T;
-	//cout << 1 << endl;
+	cout << 1 << endl;
 	while (T--) {
 		int ec = 0;
 		cin >> N;
@@ -45,7 +53,7 @@ int main() {
 			}
 		}
 		sort(e, e + ec, edge_sort);
-		register int d_max = 0;
+		register int d_max = 0, c = 0;
 		for (int i = 0; i < ec; i++) {
 			int d = e[i].d, a = e[i].a, b = e[i].b;
 			if (g[a] == g[b]) continue;
@@ -53,8 +61,11 @@ int main() {
 				if (g[a] < g[b])	us_union(b, a);
 				else				us_union(a, b);
 				if (d_max < d) d_max = d;
+				c++;
 			}
+			if (c > N) break;
 		}
+		//cout << "N: " << N << ", C: " << c << ", EC: " << ec << endl;
 		cout << d_max << endl;
 	}
 }
