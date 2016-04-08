@@ -1,3 +1,11 @@
+/*
+Problem:	cardgame - w6_cardgame
+Submitted:	19:22
+Language:	C++
+Time used:	1.16 second
+Memory used:	262144 bytes
+*/
+
 #include <iostream>
 #include <algorithm>
 #include <string.h>
@@ -21,7 +29,7 @@ int main() {
 			else			neg[negN++] = -temp;
 		}
 		sort(pos, pos + posN); sort(neg, neg + negN);
-		unsigned int sum_min;
+		register unsigned int sum_min;
 		if		(posN == 0)		sum_min = neg[0] + neg[1];
 		else if (negN == 0)		sum_min = pos[0] + pos[1];
 		else {
