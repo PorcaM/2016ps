@@ -1,0 +1,4 @@
+﻿  w5_cardgame.cpp
+c:\users\tjdwn\documents\visual studio 2015\projects\2016ps\2016ps\w5_cardgame.cpp(28): warning C4018: '>': signed 또는 unsigned가 일치하지 않습니다.
+c:\users\tjdwn\documents\visual studio 2015\projects\2016ps\2016ps\w5_cardgame.cpp(32): warning C4018: '>': signed 또는 unsigned가 일치하지 않습니다.
+  2016ps.vcxproj -> c:\Users\tjdwn\documents\visual studio 2015\Projects\2016ps\Debug\2016ps.exe
