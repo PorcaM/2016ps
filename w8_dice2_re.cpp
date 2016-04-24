@@ -57,7 +57,7 @@ int main() {
 		// print_dm(3);
 		short p;
 		for (int i = 0; i < 4; i++){
-			p = dfs(x,y,9);
+			p = dfs(target->x,target->y,9);
 		}
 		get_set(p);
 	}
@@ -71,7 +71,7 @@ void get_set(short bits){
 			int bi[2] = {i%3, (i/3)%3}, b[2] = {0};
 			if (bi[0] == bi[1]) continue;
 			b[0] = (bits&(0x01<<(bi[0]+4)))>>(bi[0]+4);
-			b[1] = (bits&(0x01<<bi[1]))>>bi[1]);
+			b[1] = (bits&(0x01<<bi[1]))>>bi[1];
 			if(b[0]*b[1]){
 				int top, body = bi[0] + bi[1];
 				if (body == 1) top = 2;
@@ -86,8 +86,8 @@ void get_set(short bits){
 	for (int i = 0; i < 3; i++){
 		if (able[i]) cout << i+1 << " "; 
 	}
-	for (int i = 2; i > -1; i++){
-		if (able[i]) cout << i+1 << " ";
+	for (int i = 2; i > -1; i--){
+		if (able[i]) cout << 6 - i << " ";
 	}
 	cout << "\n";
 }
@@ -123,8 +123,8 @@ short dfs(int x, int y, int from){
 	else 			from += 2;
 	for(int i = 0; i < 4; i++){
 		if (i==from) continue;
-		int tx = x+dir[4].x, y = dir[4].y;
-		 if (is_dice(tx, ty, i)){
+		int tx = x+dir[4].x, ty = dir[4].y;
+		 if (is_dice(tx, ty)){
 			 is_any_dice = true;
 			 get[i] = dfs(tx, ty, i);
 		 }
@@ -185,7 +185,7 @@ void communicate(int x, int y) {
 }
 
 void unique(int x, int y){
-	Dice d = &dm[y][x];
+	Dice d = dm[y][x];
 	short temp = d.path_bit;
 	temp = temp&0x0F;
 }
