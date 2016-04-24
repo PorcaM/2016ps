@@ -7,6 +7,7 @@ void set_route(int, int, int);
 void print_r();
 void unique();
 bool get_bit(int, int);
+bool check_block(int,int);
 
 int T, W, H;
 char map[10][10];
@@ -25,10 +26,10 @@ int main() {
 		for (int i = 0; i < H; i++) {
 			for (int j = 0; j < W; j++) {
 				cin >> temp;
-				if (temp == '?') { x = j; y = i; }
-				else if (temp > '3') temp = '7' - temp + 0x30;
+				if		(temp == '?')	{ x = j; y = i; }
+				else if (temp > '3')	temp = '7' - temp + 0x30;
 				map[i][j] = temp;
-				if (temp != '?' && temp != '*')
+				if		(temp != '?' && temp != '*')
 					set_route(j, i, temp - 0x30);
 			}
 		}
@@ -40,39 +41,49 @@ int main() {
 		}
 		//print_r();
 		unique();
-		//print_r();
-		int get[4] = { 0 };
-		for (int i = 0; i < 4; i++) {
-			int tx = x + dir_x[i], ty = y + dir_y[i];
-			get[i] = 0x0F;
-			if (tx <W && tx>-1 && ty<H && ty>-1) {
-				if (i % 2 == 1) get[i] = route[ty][tx] >> 4;
-				else get[i] = route[ty][tx] & 0x0F;
-			}
-		}
-		bool available[3] = { 0 };
 		int ac = 0;
-		/*cout << "GET======================" << endl;
-		for (int i = 0; i < 4; i++)
-			cout << bitset<8>(get[i]) << " ";*/
-			//cout << endl;
-		for (int i = 0; i < 9; i++) {
-			int j[2] = { i % 3, (i / 3) % 3 };
-			if (j[0] == j[1]) continue;
-			int b[4], r;
-			for (int k = 0; k < 4; k++)
-				b[k] = get_bit(get[k], j[k % 2]);
-			r = b[0] * b[1] * b[2] * b[3];
-			if (r) {
-				//cout << j[0]+1 << " " << j[1]+1 << " " << endl;
-				int top, body = j[0] + j[1];
-				if (body == 1) top = 2;
-				if (body == 2) top = 1;
-				if (body == 3) top = 0;
-				available[top] = true;
-				ac++;
+		bool available[3] = { 0 };
+		bool unable = false;
+		for (int i = 0; i < H; i++) {
+			for (int j = 0; j < W; j++) {
+				if (check_block(j, i)) unable = true;
 			}
 		}
+	//	print_r();
+		if (!unable) {
+			int get[4] = { 0 };
+			for (int i = 0; i < 4; i++) {
+				int tx = x + dir_x[i], ty = y + dir_y[i];
+				get[i] = 0x0F;
+				if (tx <W && tx>-1 && ty<H && ty>-1) {
+					if (i % 2 == 1) get[i] = route[ty][tx] >> 4;
+					else get[i] = route[ty][tx] & 0x0F;
+				}
+			}
+			/*cout << "GET======================" << endl;
+			for (int i = 0; i < 4; i++)
+				cout << bitset<8>(get[i]) << " ";*/
+				//cout << endl;
+			for (int i = 0; i < 9; i++) {
+				int j[2] = { i % 3, (i / 3) % 3 };
+				if (j[0] == j[1]) continue;
+				int b[4], r;
+				for (int k = 0; k < 4; k++)
+					b[k] = get_bit(get[k], j[k % 2]);
+				r = b[0] * b[1] * b[2] * b[3];
+				if (r) {
+					//cout << j[0]+1 << " " << j[1]+1 << " " << endl;
+					int top, body = j[0] + j[1];
+					if (body == 1) top = 2;
+					if (body == 2) top = 1;
+					if (body == 3) top = 0;
+					available[top] = true;
+					ac++;
+				}
+			}
+		}
+		//check unable
+	//	cout << unable << endl;
 		if (ac == 0) cout << 0;
 		for (int i = 0; i < 3; i++) {
 			if (available[i]) cout << i + 1 << " ";
@@ -82,6 +93,16 @@ int main() {
 		}
 		cout << endl;
 	}
+}
+
+bool check_block(int x, int y) {
+	short r = route[y][x];
+	bool flag = false;
+//	cout << "check block: " << bitset<8>(r & 0xF0);
+	if ((r & 0xF0) == 0x80) flag = true;
+	if ((r & 0x0F) == 0x08) flag = true;
+//	cout << " result: " << flag << endl;
+	return flag;
 }
 
 bool get_bit(int v, int s) {
