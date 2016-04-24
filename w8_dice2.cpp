@@ -39,7 +39,7 @@ int main() {
 					route[i][j] = 0xFF;
 			}
 		}
-		//print_r();
+	//	print_r();
 		unique();
 		int ac = 0;
 		bool available[3] = { 0 };
@@ -99,8 +99,16 @@ bool check_block(int x, int y) {
 	short r = route[y][x];
 	bool flag = false;
 //	cout << "check block: " << bitset<8>(r & 0xF0);
-	if ((r & 0xF0) == 0x80) flag = true;
-	if ((r & 0x0F) == 0x08) flag = true;
+	if ((r & 0xF0) == 0x80) {
+		if ((x + 1 < W && map[y][x + 1] != '*') ||
+			(x - 1 > 0 && map[y][x - 1] != '*'))
+			flag = true;
+	}
+	if ((r & 0x0F) == 0x08) {
+		if ((y + 1 < H && map[y + 1][x] != '*') ||
+			(y - 1 > 0 && map[y - 1][x] != '*'))
+			flag = true;
+	}
 //	cout << " result: " << flag << endl;
 	return flag;
 }
@@ -125,11 +133,25 @@ void set_route(int x, int y, int v) {
 	mask = mask << (v - 1);
 	mask ^= 0xFF;
 	for (int i = 0; i < H; i++) {
-		route[i][x] &= mask;
+		int ty = y + i;
+		if (ty >= H || map[ty][x] == '*') break;
+		route[ty][x] &= mask;
+	}
+	for (int i = 0; i < H; i++) {
+		int ty = y -i;
+		if (ty <0 || map[ty][x] == '*') break;
+		route[ty][x] &= mask;
 	}
 	mask = (mask << 4) | 0x0F;
 	for (int i = 0; i < W; i++) {
-		route[y][i] &= mask;
+		int tx = x + i;
+		if (tx >= W || map[y][tx] == '*') break;
+		route[y][tx] &= mask;
+	}
+	for (int i = 0; i < W; i++) {
+		int tx = x- i;
+		if (tx <0 || map[y][tx] == '*') break;
+		route[y][tx] &= mask;
 	}
 }
 
