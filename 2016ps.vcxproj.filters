@@ -33,7 +33,22 @@
     <ClCompile Include="smurf.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="w5_cardgame.cpp">
+    <ClCompile Include="w6_cardgame.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="w6_starwars.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="w6_starwars2.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="w8_dice1.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="w8_dice2.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="w8_dice2_re.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

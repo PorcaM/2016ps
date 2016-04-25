@@ -1,9 +1,7 @@
-﻿  w5_cardgame.cpp
-w5_cardgame.cpp(31): warning C4018: '>': signed 또는 unsigned가 일치하지 않습니다.
-w5_cardgame.cpp(35): warning C4018: '>': signed 또는 unsigned가 일치하지 않습니다.
+﻿  w8_dice2_re.cpp
   코드를 생성하고 있습니다.
-  1 of 41 functions ( 2.4%) were compiled, the rest were copied from previous compilation.
-    0 functions were new in current compilation
-    1 functions had inline decision re-evaluated but remain unchanged
+  89 of 108 functions (82.4%) were compiled, the rest were copied from previous compilation.
+    86 functions were new in current compilation
+    7 functions had inline decision re-evaluated but remain unchanged
   코드를 생성했습니다.
-  2016ps.vcxproj -> c:\Users\tjdwn\documents\visual studio 2015\Projects\2016ps\Release\2016ps.exe
+  2016ps.vcxproj -> C:\Users\tjdwn\documents\visual studio 2015\Projects\2016ps\Release\2016ps.exe
